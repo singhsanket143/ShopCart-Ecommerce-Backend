@@ -1,9 +1,8 @@
 const express = require('express');
 
-const { PORT } = require('./config/serverConfig');
+const { PORT } = require('./config/server_config');
 
-const { configPingRoutes } = require('./routes/v1/PingRouter');
-const ApiRouter = require('./routes/apiRouter');
+const ApiRouter = require('./routes/api_router');
 
 
 const app = express();

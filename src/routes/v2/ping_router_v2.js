@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { pingControllerV2 } = require('../../controllers/pingController');
+const { pingControllerV2 } = require('../../controllers/ping_controller');
 
 const pingRouterV2 = express.Router();
 
