@@ -1,4 +1,5 @@
 function pingController(request, response) {
+    console.log("Controller hit");
     return response.json({message: 'OK from V1 API'});
 }
 
