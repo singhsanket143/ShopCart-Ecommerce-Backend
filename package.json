@@ -16,6 +16,7 @@
     "http-status-codes": "^2.3.0",
     "mysql2": "^3.6.5",
     "nodemon": "^3.0.2",
-    "response-time": "^2.3.2"
+    "response-time": "^2.3.2",
+    "sequelize": "^6.35.2"
   }
 }
