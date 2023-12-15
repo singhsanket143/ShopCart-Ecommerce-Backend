@@ -43,9 +43,9 @@ async function getProducts(req, res) {
 }
 
 
-function getProduct(req, res) { // /api/v1/products/2
+async function getProduct(req, res) { // /api/v1/products/2
     try {
-        const response = ProductService.getProduct(req.params.id);
+        const response = await productService.getProduct(req.params.id);
         return res
                 .status(StatusCodes.OK)
                 .json({
