@@ -18,6 +18,11 @@ class CategoryService {
         const response = await this.respository.getCategory(categoryId);
         return response;
     }
+
+    async destroyCategory(categoryId) {
+        const response = await this.respository.destroyCategory(categoryId);
+        return response;
+    }
     
 }
 
