@@ -1,4 +1,5 @@
 const Category = require('../models/category');
+
 class CategoryRepository {
     async getCategories() {
         try {
