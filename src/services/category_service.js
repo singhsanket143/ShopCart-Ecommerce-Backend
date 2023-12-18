@@ -1,3 +1,6 @@
+const InternalServerError = require("../errors/internal_server_error");
+const NotFoundError = require("../errors/not_found_error");
+
 class CategoryService {
 
     constructor(respository) {
@@ -5,23 +8,55 @@ class CategoryService {
     }
 
     async createCategory(category) {
-        const response = await this.respository.createCategory(category.name, category.description);
-        return response;
+        try {
+            const response = await this.respository.createCategory(category.name, category.description);
+            return response;
+        } catch(error) {
+            console.log("CategorySerice: ",error);
+            throw new InternalServerError();
+        }
+        
     }
 
     async getAllCategories() {
-        const response = await this.respository.getCategories();
-        return response;
+        try {
+            const response = await this.respository.getCategories();
+            return response;
+        } catch(error) {
+            console.log("CategorySerice: ",error);
+            throw new InternalServerError();
+        }
+        
     }
 
     async getCategory(categoryId) {
-        const response = await this.respository.getCategory(categoryId);
-        return response;
+        try {
+            const response = await this.respository.getCategory(categoryId);
+            if(!response) {
+                // we were not able to find anything
+                console.log("CategoryService: ", categoryId, "not found");
+                throw new NotFoundError("Category", "id", categoryId);
+            }
+            return response;
+        } catch(error) {
+            if(error.name === "NotFoundError") {
+                throw error;
+            }
+            console.log("CategorySerice: ",error);
+            throw new InternalServerError();
+        }
+        
     }
 
     async destroyCategory(categoryId) {
-        const response = await this.respository.destroyCategory(categoryId);
-        return response;
+        try {
+            const response = await this.respository.destroyCategory(categoryId);
+            return response;
+        } catch(error) {
+            console.log("CategorySerice: ",error);
+            throw new InternalServerError();
+        }
+        
     }
     
 }
