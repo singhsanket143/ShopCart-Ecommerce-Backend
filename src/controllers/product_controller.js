@@ -1,9 +1,9 @@
 const { StatusCodes, ReasonPhrases } = require('http-status-codes');
 
 const ProductService = require('../services/product_service');
-const FakeStoreRepository = require('../repositories/fake_store_repository');
+const ProductRepository = require('../repositories/product_repository');
 
-const productService = new ProductService(new FakeStoreRepository());
+const productService = new ProductService(new ProductRepository());
 
 async function createProduct(req, res) {
 

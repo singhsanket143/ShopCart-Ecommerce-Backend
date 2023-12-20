@@ -28,7 +28,7 @@ function createProductValidator(req, res, next) {
                 .json(errorResponse(ReasonPhrases.BAD_REQUEST, new BadRequest("Image")))
     }
 
-    if(!req.body.category) {
+    if(!req.body.categoryId) {
         return res
                 .status(StatusCodes.BAD_REQUEST)
                 .json(errorResponse(ReasonPhrases.BAD_REQUEST, new BadRequest("Category")))
