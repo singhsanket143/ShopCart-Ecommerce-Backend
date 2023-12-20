@@ -2,13 +2,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const responseTime = require('response-time');
 
-const {PORT} = require('./config/server_config');
+const {PORT, DB_ALTER, DB_FORCE} = require('./config/server_config');
 const ApiRouter = require('./routes/api_router');
 
 const db = require('./config/db_config');
-
-
-const Category = require('./models/category');
 
 const app = express();
 
@@ -26,11 +23,21 @@ app.use('/api', ApiRouter); // if any req comes with url starting with /api
 
 app.listen(PORT, async () => {
     console.log(`Server for Shopcart is Up ${PORT}`);
-    await db.sync();
+    if(DB_FORCE == true) {
+        await db.sync({ force: true});
+    } else if (DB_ALTER == true) {
+        await db.sync({ alter: true});
+    } else {
+        await db.sync();
+    }
     console.log('DB Connected');
-    // const res = await Category.create({
-    //     name: 'Electronics',
-    //     description: 'Category for electronic products'
-    // });
-    // console.log(res);
+
+    // const c = await Category.findByPk(2);
+
+    // console.log(c);
+
+    // const p = await c.countProducts();
+
+    // console.log(p);
+
 })
