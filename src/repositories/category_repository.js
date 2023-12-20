@@ -47,7 +47,6 @@ class CategoryRepository {
             throw error;
         }
     }
-    
 }
 
 
