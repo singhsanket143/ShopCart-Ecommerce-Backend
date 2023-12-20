@@ -12,4 +12,5 @@ v1Router.use('/ping', pingRouter)
 v1Router.use('/products', productsRouter)
 v1Router.use('/categories', categoryRouter)
 
+
 module.exports = v1Router;

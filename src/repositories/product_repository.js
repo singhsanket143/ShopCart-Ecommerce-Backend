@@ -60,6 +60,20 @@ class ProductRepository {
             throw error;
         }
     }
+
+    async destroyProduct(productId) {
+        try {
+            const response = await Product.destroy({
+                where: {
+                    id: productId
+                }
+            });
+            return response;
+        } catch(error) {
+            console.log(error);
+            throw error;
+        }
+    }
     
 }
 

@@ -126,8 +126,8 @@ async function destroyCategory(req, res) {
     } catch(error) {
         console.log("CategoryController: Something went wrong", error);
         return res
-                .status(StatusCodes.INTERNAL_SERVER_ERROR)
-                .json(errorResponse(ReasonPhrases.INTERNAL_SERVER_ERROR, error));
+                .status(error.statusCode)
+                .json(errorResponse(error.reason, error));
     }
 
 }

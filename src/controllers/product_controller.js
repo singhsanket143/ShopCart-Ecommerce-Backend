@@ -69,8 +69,34 @@ async function getProduct(req, res) { // /api/v1/products/2
     }
 }
 
+async function destroyProduct(req, res) {
+
+    try {
+        
+        const response = await productService.destroyProduct(req.params.id);
+    
+        return res
+                .status(StatusCodes.OK)
+                .json({
+                    sucess: true,
+                    error: {},
+                    message: "Successfully deleted Product",
+                    data: response
+        });
+
+    } catch(error) {
+        console.log("ProductController: Something went wrong", error);
+        return res
+                .status(error.statusCode)
+                .json(errorResponse(error.reason, error));
+    }
+
+}
+
+
 module.exports = {
     createProduct,
     getProducts,
-    getProduct
+    getProduct,
+    destroyProduct
 }
