@@ -1,6 +1,9 @@
 const express = require('express');
 
-const { createCategory, getAllCategories, getCategory, destroyCategory, getProductsForCategory } = require('../../controllers/category_controller');
+const { CategoryController } = require('../../controllers/index');
+
+
+const { createCategory, getAllCategories, getCategory, destroyCategory, getProductsForCategory }  = CategoryController;
 const { createCategoryValidator } = require('../../middlewares/category_middleware');
 
 const categoryRouter = express.Router();

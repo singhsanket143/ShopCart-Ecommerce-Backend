@@ -1,11 +1,13 @@
 const express = require('express');
 
-const { pingController } = require('../../controllers/ping_controller');
+const { PingController } = require('../../controllers/index');
+
+const { pingCheck } = PingController;
 
 const router = express.Router();
 
 
-router.get('/', pingController); // mapping a route to a controller
+router.get('/', pingCheck); // mapping a route to a controller
 
 
 module.exports = router;
