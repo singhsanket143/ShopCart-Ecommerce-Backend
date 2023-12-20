@@ -2,6 +2,7 @@ const { StatusCodes, ReasonPhrases } = require('http-status-codes');
 
 const ProductService = require('../services/product_service');
 const ProductRepository = require('../repositories/product_repository');
+const errorResponse = require('../utils/error_response');
 
 const productService = new ProductService(new ProductRepository());
 
@@ -21,7 +22,10 @@ async function createProduct(req, res) {
         });
 
     } catch(error) {
-        console.log("Something went wrong", error);
+        console.log("ProductController: Something went wrong", error);
+        return res
+                .status(error.statusCode)
+                .json(errorResponse(error.reason, error));
     }
 
 }
@@ -38,7 +42,10 @@ async function getProducts(req, res) {
                     data: response
         });
     } catch(error) {
-        console.log("Something went wrong", error);
+        console.log("ProductController: Something went wrong", error);
+        return res
+                .status(error.statusCode)
+                .json(errorResponse(error.reason, error));
     }
 }
 
@@ -55,7 +62,10 @@ async function getProduct(req, res) { // /api/v1/products/2
                     data: response
         });
     } catch(error) {
-        console.log("Something went wrong", error);
+        console.log("ProductController: Something went wrong", error);
+        return res
+                .status(error.statusCode)
+                .json(errorResponse(error.reason, error));
     }
 }
 
