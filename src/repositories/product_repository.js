@@ -91,6 +91,22 @@ class ProductRepository {
             throw error;
         }
     }
+
+    async searchProduct(searchQuery) {
+        try {
+            const response = await Product.findAll({
+                where: {
+                    title: {
+                        [Op.like]: `%${searchQuery}%`
+                    }
+                }
+            });
+            return response;
+        } catch(error) {
+            console.log(error);
+            throw error;
+        }
+    }
     
 }
 
