@@ -32,7 +32,7 @@ async function createProduct(req, res) {
 
 async function getProducts(req, res) {
     try {
-        const response = await productService.getProducts();
+        const response = await productService.getProducts(req.query);
         return res
                 .status(StatusCodes.OK)
                 .json({
