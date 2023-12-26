@@ -31,6 +31,32 @@ async function createUser(req, res) {
 
 }
 
+
+async function signin(req, res) {
+
+    try {
+        
+        const response = await userService.signinUser(req.body);
+    
+        return res
+                .status(StatusCodes.OK)
+                .json({
+                    sucess: true,
+                    error: {},
+                    message: "Successfully signed in",
+                    data: response
+        });
+
+    } catch(error) {
+        console.log("UserController: Something went wrong", error);
+        return res
+                .status(error.statusCode)
+                .json(errorResponse(error.reason, error));
+    }
+
+}
+
 module.exports = {
-    createUser
+    createUser,
+    signin
 }
