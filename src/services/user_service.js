@@ -25,7 +25,7 @@ class UserService {
                 error.errors.forEach((err) => {
                     propertiesHavingValidationIssue += err.path + ", ";
                     reason.push(err.message);
-                })
+                });
 
                 throw new BadRequest(propertiesHavingValidationIssue, true, reason);
             }
