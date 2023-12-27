@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const responseTime = require('response-time');
 
 const {PORT, DB_ALTER, DB_FORCE} = require('./config/server_config');
@@ -14,6 +15,7 @@ const app = express();
 //     res.setHeader('X-Response-Time', time);
 // }));
 app.use(responseTime());
+app.use(cookieParser());
 
 app.use(bodyParser.json());
 app.use(bodyParser.text());
