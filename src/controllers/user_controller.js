@@ -4,6 +4,7 @@ const { UserService }  = require('../services/index');
 const { UserRepository } = require('../repositories/index');
 
 const errorResponse = require('../utils/error_response');
+const { NODE_ENV } = require('../config/server_config');
 
 const userService = new UserService(new UserRepository());
 
@@ -37,6 +38,12 @@ async function signin(req, res) {
     try {
         
         const response = await userService.signinUser(req.body);
+
+        res.cookie('token', response, {
+            httpOnly: true, 
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+            secure: NODE_ENV == 'production'
+        });
     
         return res
                 .status(StatusCodes.OK)
@@ -44,7 +51,7 @@ async function signin(req, res) {
                     sucess: true,
                     error: {},
                     message: "Successfully signed in",
-                    data: response
+                    data: (NODE_ENV == 'production') ? true : response
         });
 
     } catch(error) {
