@@ -7,14 +7,16 @@ const UnauthorizedError = require("../errors/unauthorized_error");
 const { generateJWT } = require("../utils/auth");
 class UserService {
 
-    constructor(respository) {
+    constructor(respository, cartRepository) {
         this.respository = respository;
+        this.cartRepository = cartRepository;
     }
 
 
     async createUser(user) {
         try {
             const response = await this.respository.createUser(user.email, user.password);
+            await this.cartRepository.createCart(response.id);
             return response;
         } catch(error) {
             console.log("UserService: ", error.name);
