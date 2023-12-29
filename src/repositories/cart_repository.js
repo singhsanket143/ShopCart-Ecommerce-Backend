@@ -1,5 +1,6 @@
-const { Cart } = require('../models/index');
-
+const { Cart, CartProducts } = require('../models/index');
+const { Op } = require('sequelize');
+const NotFoundError = require('../errors//not_found_error');
 class CartRepository {
     async getCarts() {
         try {
@@ -41,6 +42,63 @@ class CartRepository {
                 }
             });
             return response;
+        } catch(error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
+    async updateCart(cartId, productId, shouldAddProduct = true) {
+        try {
+            const result = await CartProducts.findOne({
+                where: {
+                    [Op.and]: [
+                        {cartId: cartId},
+                        {productId: productId}
+                    ]
+                }
+            });
+
+            if(shouldAddProduct) {
+                // we want to add product to a cart
+                if(!result) {
+                    // the product was not yet added in the cart
+                    await CartProducts.create({
+                        cartId,
+                        productId,
+                    })
+                } else {
+                    // the product was already in the cart and we want to increment the quantity
+                    await result.increment({quantity: 1});
+                }
+            } else {
+                // remove product from cart
+                if(!result) {
+                    throw new NotFoundError('Cart Product', 'Product', productId);
+                }
+                if(result.quantity == 1) {
+                    await CartProducts.destroy({
+                        where: {
+                            [Op.and]: [
+                                {cartId: cartId},
+                                {productId: productId}
+                            ]
+                        }
+                    })
+                } else {
+                    await result.increment({quantity: -1});
+                }
+            }
+
+            const response = await CartProducts.findAll({
+                where: {
+                    cartId: cartId
+                }
+            });
+            return {
+                cartId: cartId,
+                products: response
+            }
         } catch(error) {
             console.log(error);
             throw error;

@@ -7,6 +7,7 @@ const {PORT, DB_ALTER, DB_FORCE} = require('./config/server_config');
 const ApiRouter = require('./routes/api_router');
 
 const db = require('./config/db_config');
+const { User } = require('./models');
 
 const app = express();
 
@@ -41,5 +42,12 @@ app.listen(PORT, async () => {
     // const p = await c.countProducts();
 
     // console.log(p);
+
+    // const user = await User.findByPk(16);
+    // console.log(user);
+
+    // const cart = await user.getCart();
+
+    // console.log(cart);
 
 })
