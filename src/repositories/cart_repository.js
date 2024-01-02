@@ -12,6 +12,20 @@ class CartRepository {
         }
     }
 
+    async getCartByUser(userId) {
+        try {
+            const response = await Cart.findOne({
+                where: {
+                    userId
+                }
+            });
+            return response;
+        } catch(error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
     async getCart(id) {
         try {
             const response = await Cart.findByPk(id);
