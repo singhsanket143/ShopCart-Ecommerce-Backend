@@ -22,7 +22,47 @@ class CartService {
             if(error.name === "NotFoundError" || error.name === "UnauthorizedError") {
                 throw error;
             }
-            console.log("CategorySerice: ",error);
+            console.log("CartService: ",error);
+            throw new InternalServerError();
+        }
+    }
+
+    async getCartProducts(cartId, userId) {
+        try {
+            const cart = await this.respository.getCart(cartId);
+            if(!cart) {
+                throw new NotFoundError('Cart', 'id', cartId);
+            }
+            if(cart.userId !== userId) {
+                throw new UnauthorizedError('You are not authorised to do the current operation');
+            }
+            const response = await this.respository.getCartProducts(cartId);
+            return response;
+        } catch(error) {
+            if(error.name === "NotFoundError" || error.name === "UnauthorizedError") {
+                throw error;
+            }
+            console.log("CartService: ",error);
+            throw new InternalServerError();
+        }
+    }
+
+    async clearCart(cartId, userId) {
+        try {
+            const cart = await this.respository.getCart(cartId);
+            if(!cart) {
+                throw new NotFoundError('Cart', 'id', cartId);
+            }
+            if(cart.userId !== userId) {
+                throw new UnauthorizedError('You are not authorised to do the current operation');
+            }
+            const response = await this.respository.clearCart(cartId);
+            return response;
+        } catch(error) {
+            if(error.name === "NotFoundError" || error.name === "UnauthorizedError") {
+                throw error;
+            }
+            console.log("CartService: ",error);
             throw new InternalServerError();
         }
     }

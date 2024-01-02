@@ -31,6 +31,50 @@ async function updateCart(req, res) {
 
 }
 
+async function getCartProducts(req, res) {
+    try {
+        const response = await cartService.getCartProducts(req.params.id, req.user.id);
+    
+        return res
+                .status(StatusCodes.OK)
+                .json({
+                    sucess: true,
+                    error: {},
+                    message: "Updated Cart successfully",
+                    data: response
+        });
+
+    } catch(error) {
+        console.log("CartController: Something went wrong", error);
+        return res
+                .status(error.statusCode)
+                .json(errorResponse(error.reason, error));
+    }
+}
+
+async function clearCart(req, res) {
+    try {
+        const response = await cartService.clearCart(req.params.id, req.user.id);
+    
+        return res
+                .status(StatusCodes.OK)
+                .json({
+                    sucess: true,
+                    error: {},
+                    message: "Updated Cart successfully",
+                    data: response
+        });
+
+    } catch(error) {
+        console.log("CartController: Something went wrong", error);
+        return res
+                .status(error.statusCode)
+                .json(errorResponse(error.reason, error));
+    }
+}
+
 module.exports = {
-    updateCart
+    updateCart,
+    getCartProducts,
+    clearCart
 }
