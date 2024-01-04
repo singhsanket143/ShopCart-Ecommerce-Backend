@@ -1,4 +1,4 @@
-const { Order, OrderProducts } = require('../models/index');
+const { Order, OrderProducts, Product } = require('../models/index');
 
 class OrderRepository {
     async getOrders() {
@@ -37,6 +37,29 @@ class OrderRepository {
     async addOrderProductsInBulk(orderProducts) {
         try {
             const response = await OrderProducts.bulkCreate(orderProducts);
+            return response;
+        } catch(error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
+    async fetchOrderDetails(orderId) {
+        try {
+            const response = await Order.findOne({
+                where: {
+                    id: orderId
+                },
+                include: {
+                    model: Product,
+                    attributes: ['title', 'id', 'price', 'image'],
+                    through: {
+                        model: OrderProducts,
+                        attributes: ['quantity']
+                    }
+                },
+                attributes: ['id', 'status', 'createdAt', 'updatedAt'],
+            });
             return response;
         } catch(error) {
             console.log(error);

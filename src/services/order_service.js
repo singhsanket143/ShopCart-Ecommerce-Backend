@@ -58,6 +58,38 @@ class CategoryService {
         
     }
 
+    async fetchOrderDetails(userId, orderId) {
+        try {
+            const orderObject = await this.respository.getOrder(orderId);
+            if(!orderObject) {
+                throw new NotFoundError('Order', 'order id', orderId);
+            }
+            if(orderObject.userId != userId) {
+                throw new UnauthorizedError('You are not authorised to do the current operation');
+            }
+            const response = await this.respository.fetchOrderDetails(orderId);
+            const order = {id: response.id, status: response.status, createdAt: response.createdAt, updatedAt: response.updatedAt};
+            let totalOrderValue = 0;
+            order.products = response.products.map(product => {
+                totalOrderValue += product.price * product.order_products.quantity;
+                return {
+                    title: product.title,
+                    price: product.price,
+                    image: product.image,
+                    id: product.id,
+                    quantity: product.order_products.quantity
+                }
+            })
+            order.totalOrderValue = totalOrderValue;
+            return order;
+        } catch(error) {
+            if(error.name === "NotFoundError" || error.name === "UnauthorizedError") {
+                throw error;
+            }
+            console.log("OrderService: ",error);
+            throw new InternalServerError();
+        }
+    }
     
 }
 
