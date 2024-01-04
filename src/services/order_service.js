@@ -79,7 +79,7 @@ class CategoryService {
                     id: product.id,
                     quantity: product.order_products.quantity
                 }
-            })
+            });
             order.totalOrderValue = totalOrderValue;
             return order;
         } catch(error) {
@@ -90,7 +90,6 @@ class CategoryService {
             throw new InternalServerError();
         }
     }
-    
 }
 
 

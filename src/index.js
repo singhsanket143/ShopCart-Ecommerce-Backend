@@ -3,11 +3,11 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const responseTime = require('response-time');
 
-const {PORT, DB_ALTER, DB_FORCE} = require('./config/server_config');
+const {PORT, DB_ALTER, DB_FORCE, NODE_ENV} = require('./config/server_config');
 const ApiRouter = require('./routes/api_router');
 
 const db = require('./config/db_config');
-const { Order, Product, OrderProducts } = require('./models');
+const { syncDbInOrder } = require('./models');
 
 const app = express();
 
@@ -26,13 +26,20 @@ app.use('/api', ApiRouter); // if any req comes with url starting with /api
 
 app.listen(PORT, async () => {
     console.log(`Server for Shopcart is Up ${PORT}`);
-    if(DB_FORCE == true) {
-        await db.sync({ force: true});
-    } else if (DB_ALTER == true) {
-        await db.sync({ alter: true});
-    } else {
-        await db.sync();
+    if(NODE_ENV == 'development') {
+        if(DB_FORCE == true) {
+            await db.sync({ force: true});
+        } else if (DB_ALTER == true) {
+            await db.sync({ alter: true});
+        } else {
+            await db.sync();
+        }
     }
+    if(NODE_ENV == 'production') {
+        console.log("Syncing db in order");
+        syncDbInOrder();
+    }
+   
     console.log('DB Connected');
 
     // const c = await Category.findByPk(2);
