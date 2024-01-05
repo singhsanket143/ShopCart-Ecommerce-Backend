@@ -37,7 +37,7 @@ describe('Tests for category repository category creation', () => {
         try {
             // Act.
             const response = await repository.createCategory('Fashion', 'Fashion related products');
-            
+            expect(response).toThrow();
         } catch(error) {
             // Expect / Assert
             expect(error).toBe(mockError);

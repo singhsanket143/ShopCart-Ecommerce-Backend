@@ -31,6 +31,7 @@ class CategoryRepository {
             return response;
         } catch(error) {
             throw error;
+            
         }
     }
 
