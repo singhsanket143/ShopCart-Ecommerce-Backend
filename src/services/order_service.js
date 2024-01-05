@@ -1,7 +1,7 @@
 const InternalServerError = require("../errors/internal_server_error");
 const NotFoundError = require("../errors/not_found_error");
 
-class CategoryService {
+class OrderService {
 
     constructor(respository, cartRepository) {
         this.respository = respository;
@@ -93,4 +93,4 @@ class CategoryService {
 }
 
 
-module.exports = CategoryService
+module.exports = OrderService
