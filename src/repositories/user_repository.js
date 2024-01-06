@@ -1,6 +1,11 @@
 const { User } = require('../models/index');
 
 class UserRepository {
+
+    UserRepository() {
+        console.log("Default constructor of actual user repository called");
+    }
+
     async getUsers() {
         try {
             const response = await User.findAll();

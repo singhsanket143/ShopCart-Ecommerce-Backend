@@ -50,7 +50,10 @@ class UserService {
             if(!doesPasswordMatch) {
                 throw new UnauthorizedError();
             }
-            return generateJWT({email: user.email, id: user.id});
+            const result = generateJWT({email: user.email, id: user.id});
+            console.log("Generating jwt", result)
+
+            return result;
         } catch(error) {
             console.log("UserService: ",error);
             if(error.name === "NotFoundError" || error.name === "UnauthorizedError") {
